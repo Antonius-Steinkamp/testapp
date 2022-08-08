@@ -21,7 +21,11 @@ import com.vaadin.flow.router.PageTitle;
  */
 public class MainLayout extends AppLayout {
 
-    private H1 viewTitle;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6154652183060289797L;
+	private H1 viewTitle;
 
     public MainLayout() {
         setPrimarySection(Section.DRAWER);

@@ -20,6 +20,11 @@ import java.util.Optional;
 public class AppNav extends Component implements HasSize, HasStyle {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5132366403842001443L;
+
+	/**
      * Creates a new menu without any label.
      */
     public AppNav() {

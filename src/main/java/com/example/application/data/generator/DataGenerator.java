@@ -1,32 +1,36 @@
 package com.example.application.data.generator;
 
+import java.time.LocalDateTime;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
+
 import com.example.application.data.entity.SamplePerson;
 import com.example.application.data.service.SamplePersonRepository;
 import com.vaadin.exampledata.DataType;
 import com.vaadin.exampledata.ExampleDataGenerator;
 import com.vaadin.flow.spring.annotation.SpringComponent;
-import java.time.LocalDateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
 
+import lombok.extern.java.Log;
+
+@Log
 @SpringComponent
 public class DataGenerator {
 
     @Bean
-    public CommandLineRunner loadData(SamplePersonRepository samplePersonRepository) {
+    public CommandLineRunner loadData(final SamplePersonRepository samplePersonRepository) {
+    	final int DEMO_DATA_CNT = 100;
+    	
         return args -> {
-            Logger logger = LoggerFactory.getLogger(getClass());
             if (samplePersonRepository.count() != 0L) {
-                logger.info("Using existing database");
+                log.info("Using existing database");
                 return;
             }
             int seed = 123;
 
-            logger.info("Generating demo data");
+            log.info( String.format("Generating %d demo data", DEMO_DATA_CNT));
 
-            logger.info("... generating 100 Sample Person entities...");
+            log.info("... generating 100 Sample Person entities...");
             ExampleDataGenerator<SamplePerson> samplePersonRepositoryGenerator = new ExampleDataGenerator<>(
                     SamplePerson.class, LocalDateTime.of(2022, 8, 6, 0, 0, 0));
             samplePersonRepositoryGenerator.setData(SamplePerson::setFirstName, DataType.FIRST_NAME);
@@ -36,9 +40,9 @@ public class DataGenerator {
             samplePersonRepositoryGenerator.setData(SamplePerson::setDateOfBirth, DataType.DATE_OF_BIRTH);
             samplePersonRepositoryGenerator.setData(SamplePerson::setOccupation, DataType.OCCUPATION);
             samplePersonRepositoryGenerator.setData(SamplePerson::setImportant, DataType.BOOLEAN_10_90);
-            samplePersonRepository.saveAll(samplePersonRepositoryGenerator.create(100, seed));
+            samplePersonRepository.saveAll(samplePersonRepositoryGenerator.create(DEMO_DATA_CNT, seed));
 
-            logger.info("Generated demo data");
+            log.info(String.format("Generated %d demo data", DEMO_DATA_CNT));
         };
     }
 

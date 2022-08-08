@@ -5,14 +5,18 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Route;
 
-@PageTitle("About")
 @Route(value = "about", layout = MainLayout.class)
-public class AboutView extends VerticalLayout {
+public class AboutView extends VerticalLayout implements HasDynamicTitle {
 
-    public AboutView() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7526277124907784334L;
+
+	public AboutView() {
         setSpacing(false);
 
         Image img = new Image("images/empty-plant.png", "placeholder plant");
@@ -27,5 +31,10 @@ public class AboutView extends VerticalLayout {
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         getStyle().set("text-align", "center");
     }
+
+	@Override
+	public String getPageTitle() {
+		return AboutView.class.getSimpleName();
+	}
 
 }

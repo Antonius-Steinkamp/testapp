@@ -22,13 +22,18 @@ import java.util.Optional;
 public class AppNavItem extends Component {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -605182695021919030L;
+
+	/**
      * Creates a menu item which does not link to any view but only shows the given
      * label.
      * 
      * @param label
      *            the label for the item
      */
-    public AppNavItem(String label) {
+    public AppNavItem(final String label) {
         setLabel(label);
     }
 
@@ -40,7 +45,7 @@ public class AppNavItem extends Component {
      * @param path
      *            the path to link to
      */
-    public AppNavItem(String label, String path) {
+    public AppNavItem(final String label, final String path) {
         setPath(path);
         setLabel(label);
     }

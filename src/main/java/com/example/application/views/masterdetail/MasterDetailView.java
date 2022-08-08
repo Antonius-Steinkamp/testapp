@@ -37,7 +37,12 @@ import org.springframework.data.domain.PageRequest;
 @Uses(Icon.class)
 public class MasterDetailView extends Div implements BeforeEnterObserver {
 
-    private final String SAMPLEPERSON_ID = "samplePersonID";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3173315111237462819L;
+	
+	private final String SAMPLEPERSON_ID = "samplePersonID";
     private final String SAMPLEPERSON_EDIT_ROUTE_TEMPLATE = "master-detail/%s/edit";
 
     private Grid<SamplePerson> grid = new Grid<>(SamplePerson.class, false);

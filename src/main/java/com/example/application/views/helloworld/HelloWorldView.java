@@ -29,7 +29,12 @@ import com.vaadin.flow.router.RouteAlias;
 @Uses(Icon.class)
 public class HelloWorldView extends Div {
 
-    private TextField firstName = new TextField("First name");
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1438618338023148991L;
+	
+	private TextField firstName = new TextField("First name");
     private TextField lastName = new TextField("Last name");
     private EmailField email = new EmailField("Email address");
     private DatePicker dateOfBirth = new DatePicker("Birthday");
@@ -84,7 +89,12 @@ public class HelloWorldView extends Div {
     }
 
     private static class PhoneNumberField extends CustomField<String> {
-        private ComboBox<String> countryCode = new ComboBox<>();
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -2541051005228023542L;
+		
+		private ComboBox<String> countryCode = new ComboBox<>();
         private TextField number = new TextField();
 
         public PhoneNumberField(String label) {
