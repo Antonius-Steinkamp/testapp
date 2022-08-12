@@ -1,12 +1,10 @@
-package com.example.application.data.generator;
+package com.example.application.data.service;
 
 import java.time.LocalDateTime;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 
-import com.example.application.data.entity.SamplePerson;
-import com.example.application.data.service.SamplePersonRepository;
 import com.vaadin.exampledata.DataType;
 import com.vaadin.exampledata.ExampleDataGenerator;
 import com.vaadin.flow.spring.annotation.SpringComponent;

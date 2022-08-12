@@ -3,9 +3,11 @@ package com.example.application.views;
 
 import com.example.application.components.appnav.AppNav;
 import com.example.application.components.appnav.AppNavItem;
+import com.example.application.data.service.SamplePersonView;
 import com.example.application.views.about.AboutView;
+import com.example.application.views.about.AboutView2;
+import com.example.application.views.about.AboutView3;
 import com.example.application.views.helloworld.HelloWorldView;
-import com.example.application.views.masterdetail.MasterDetailView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -14,6 +16,7 @@ import com.vaadin.flow.component.html.Footer;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Header;
+import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.PageTitle;
 
 /**
@@ -63,7 +66,9 @@ public class MainLayout extends AppLayout {
 
         nav.addItem(new AppNavItem("Hello World", HelloWorldView.class, "la la-user"));
         nav.addItem(new AppNavItem("About", AboutView.class, "la la-file"));
-        nav.addItem(new AppNavItem("Master-Detail", MasterDetailView.class, "la la-columns"));
+        nav.addItem(new AppNavItem("About2", AboutView2.class, "la la-file"));
+        nav.addItem(new AppNavItem("About3", AboutView3.class, "la la-file"));
+        nav.addItem(new AppNavItem("Persons", SamplePersonView.class, "la la-columns"));
 
         return nav;
     }
@@ -82,7 +87,21 @@ public class MainLayout extends AppLayout {
     }
 
     private String getCurrentPageTitle() {
-        PageTitle title = getContent().getClass().getAnnotation(PageTitle.class);
-        return title == null ? "" : title.value();
+    	Class<?> contentClass = getContent().getClass();
+    	boolean fromClass = HasDynamicTitle.class.isAssignableFrom(contentClass);
+    	String title;
+    	if (fromClass) {
+    		HasDynamicTitle o =(HasDynamicTitle)getContent(); 
+    		title = o.getPageTitle();
+    	} else {
+    		PageTitle pageTitle = getContent().getClass().getAnnotation(PageTitle.class);
+    		if (pageTitle != null && pageTitle.value() != null) {
+        	title = pageTitle.value();
+    		} else {
+        		title = "";
+        	}
+    	}
+    	
+    	return title;
     }
 }

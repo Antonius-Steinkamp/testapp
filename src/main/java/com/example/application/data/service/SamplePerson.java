@@ -1,8 +1,10 @@
-package com.example.application.data.entity;
+package com.example.application.data.service;
 
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
+
+import com.example.application.data.entity.AbstractEntity;
 
 import lombok.Getter;
 import lombok.Setter;

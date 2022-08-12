@@ -1,7 +1,12 @@
-package com.example.application.views.masterdetail;
+package com.example.application.data.service;
 
-import com.example.application.data.entity.SamplePerson;
-import com.example.application.data.service.SamplePersonService;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+
+import com.example.application.HasVeryDynamicTitle;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
@@ -24,26 +29,27 @@ import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
-import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.data.VaadinSpringDataHelpers;
-import java.util.Optional;
-import java.util.UUID;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 
-@PageTitle("Master-Detail")
-@Route(value = "master-detail/:samplePersonID?/:action?(edit)", layout = MainLayout.class)
+@Route(value = "persons/:samplePersonID?/:action?(edit)", layout = MainLayout.class)
 @Uses(Icon.class)
-public class MasterDetailView extends Div implements BeforeEnterObserver {
+public class SamplePersonView extends Div implements BeforeEnterObserver,  HasVeryDynamicTitle {
 
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = -3173315111237462819L;
 	
-	private final String SAMPLEPERSON_ID = "samplePersonID";
-    private final String SAMPLEPERSON_EDIT_ROUTE_TEMPLATE = "master-detail/%s/edit";
+	/**
+	 * 
+	 */
+	private static final String SAMPLEPERSON_ID = "samplePersonID";
+	
+    /**
+     * 
+     */
+    private static final String SAMPLEPERSON_EDIT_ROUTE_TEMPLATE = "persons/%s/edit";
 
     private Grid<SamplePerson> grid = new Grid<>(SamplePerson.class, false);
 
@@ -57,6 +63,7 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
 
     private Button cancel = new Button("Cancel");
     private Button save = new Button("Save");
+    private Button remove = new Button("Remove");
 
     private BeanValidationBinder<SamplePerson> binder;
 
@@ -65,7 +72,7 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
     private final SamplePersonService samplePersonService;
 
     @Autowired
-    public MasterDetailView(SamplePersonService samplePersonService) {
+    public SamplePersonView(SamplePersonService samplePersonService) {
         this.samplePersonService = samplePersonService;
         addClassNames("master-detail-view");
 
@@ -77,38 +84,14 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
 
         add(splitLayout);
 
-        // Configure Grid
-        grid.addColumn("firstName").setAutoWidth(true);
-        grid.addColumn("lastName").setAutoWidth(true);
-        grid.addColumn("email").setAutoWidth(true);
-        grid.addColumn("phone").setAutoWidth(true);
-        grid.addColumn("dateOfBirth").setAutoWidth(true);
-        grid.addColumn("occupation").setAutoWidth(true);
-        LitRenderer<SamplePerson> importantRenderer = LitRenderer.<SamplePerson>of(
-                "<vaadin-icon icon='vaadin:${item.icon}' style='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: ${item.color};'></vaadin-icon>")
-                .withProperty("icon", important -> important.isImportant() ? "check" : "minus").withProperty("color",
-                        important -> important.isImportant()
-                                ? "var(--lumo-primary-text-color)"
-                                : "var(--lumo-disabled-text-color)");
+        createGrid(samplePersonService);
 
-        grid.addColumn(importantRenderer).setHeader("Important").setAutoWidth(true);
+        createForm(samplePersonService);
 
-        grid.setItems(query -> samplePersonService.list(
-                PageRequest.of(query.getPage(), query.getPageSize(), VaadinSpringDataHelpers.toSpringDataSort(query)))
-                .stream());
-        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
+    }
 
-        // when a row is selected or deselected, populate form
-        grid.asSingleSelect().addValueChangeListener(event -> {
-            if (event.getValue() != null) {
-                UI.getCurrent().navigate(String.format(SAMPLEPERSON_EDIT_ROUTE_TEMPLATE, event.getValue().getId()));
-            } else {
-                clearForm();
-                UI.getCurrent().navigate(MasterDetailView.class);
-            }
-        });
-
-        // Configure Form
+	private void createForm(SamplePersonService samplePersonService) {
+		// Configure Form
         binder = new BeanValidationBinder<>(SamplePerson.class);
 
         // Bind fields. This is where you'd define e.g. validation rules
@@ -127,17 +110,64 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
                 }
                 binder.writeBean(this.samplePerson);
 
-                samplePersonService.update(this.samplePerson);
+                SamplePerson updatedPerson = samplePersonService.update(this.samplePerson);
                 clearForm();
                 refreshGrid();
-                Notification.show("SamplePerson details stored.");
-                UI.getCurrent().navigate(MasterDetailView.class);
+                Notification.show("Person " + updatedPerson + " stored.");
+                UI.getCurrent().navigate(SamplePersonView.class);
             } catch (ValidationException validationException) {
                 Notification.show("An exception happened while trying to store the samplePerson details.");
             }
         });
+        
+        remove.addClickListener(e -> {
+            try {
+	            if (this.samplePerson == null || this.samplePerson.getId() == null) {
+	                Notification.show("No Person to remove.");
+	                return;
+	            }
+	            Notification.show("Deleting " + this.samplePerson);
+	            this.samplePersonService.delete(this.samplePerson.getId());
+	            clearForm();
+	            refreshGrid();
+	            UI.getCurrent().navigate(SamplePersonView.class);
+            } catch (Exception validationException) {
+                Notification.show("An exception happened while trying to remove " + this.samplePerson);
+            }
+        });
+	}
 
-    }
+	private void createGrid(SamplePersonService samplePersonService) {
+		// Configure Grid
+        grid.addColumn("firstName").setAutoWidth(true);
+        grid.addColumn("lastName").setAutoWidth(true);
+        grid.addColumn("email").setAutoWidth(true);
+        grid.addColumn("phone").setAutoWidth(true);
+        grid.addColumn("dateOfBirth").setAutoWidth(true);
+        grid.addColumn("occupation").setAutoWidth(true);
+        LitRenderer<SamplePerson> importantRenderer = LitRenderer.<SamplePerson>of(
+                "<vaadin-icon icon='vaadin:${item.icon}' style='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: ${item.color};'></vaadin-icon>")
+                .withProperty("icon", important -> important.isImportant() ? "check" : "minus").withProperty("color",
+                        important -> important.isImportant()
+                                ? "var(--lumo-primary-text-color)"
+                                : "var(--lumo-disabled-text-color)");
+
+        grid.addColumn(importantRenderer).setHeader("Important").setAutoWidth(true);
+
+        grid.setItems(query -> samplePersonService.list( PageRequest.of(query.getPage(), query.getPageSize(), VaadinSpringDataHelpers.toSpringDataSort(query)))
+                .stream());
+        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
+
+        // when a row is selected or deselected, populate form
+        grid.asSingleSelect().addValueChangeListener(event -> {
+            if (event.getValue() != null) {
+                UI.getCurrent().navigate(String.format(SAMPLEPERSON_EDIT_ROUTE_TEMPLATE, event.getValue().getId()));
+            } else {
+                clearForm();
+                UI.getCurrent().navigate(SamplePersonView.class);
+            }
+        });
+	}
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
@@ -153,7 +183,7 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
                 // when a row is selected but the data is no longer available,
                 // refresh grid
                 refreshGrid();
-                event.forwardTo(MasterDetailView.class);
+                event.forwardTo(SamplePersonView.class);
             }
         }
     }
@@ -186,9 +216,10 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
     private void createButtonLayout(Div editorLayoutDiv) {
         HorizontalLayout buttonLayout = new HorizontalLayout();
         buttonLayout.setClassName("button-layout");
+        remove.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         cancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        buttonLayout.add(save, cancel);
+        buttonLayout.add(save, cancel, remove);
         editorLayoutDiv.add(buttonLayout);
     }
 
@@ -208,9 +239,10 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
         populateForm(null);
     }
 
-    private void populateForm(SamplePerson value) {
+    private void populateForm(final SamplePerson value) {
         this.samplePerson = value;
         binder.readBean(this.samplePerson);
 
     }
+
 }

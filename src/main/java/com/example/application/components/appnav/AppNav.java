@@ -28,6 +28,7 @@ public class AppNav extends Component implements HasSize, HasStyle {
      * Creates a new menu without any label.
      */
     public AppNav() {
+    	super();
     }
 
     /**
@@ -36,7 +37,8 @@ public class AppNav extends Component implements HasSize, HasStyle {
      * @param label
      *            the label to use
      */
-    public AppNav(String label) {
+    public AppNav(final String label) {
+    	super();
         setLabel(label);
     }
 
@@ -47,8 +49,8 @@ public class AppNav extends Component implements HasSize, HasStyle {
      *            the menu item(s) to add
      * @return the menu for chaining
      */
-    public AppNav addItem(AppNavItem... appNavItems) {
-        for (AppNavItem appNavItem : appNavItems) {
+    public AppNav addItem(final AppNavItem... appNavItems) {
+        for (final AppNavItem appNavItem : appNavItems) {
             getElement().appendChild(appNavItem.getElement());
         }
 
@@ -64,7 +66,7 @@ public class AppNav extends Component implements HasSize, HasStyle {
      *            the menu item to remove
      * @return the menu for chaining
      */
-    public AppNav removeItem(AppNavItem appNavItem) {
+    public AppNav removeItem(final AppNavItem appNavItem) {
         Optional<Component> parent = appNavItem.getParent();
         if (parent.isPresent() && parent.get() == this) {
             getElement().removeChild(appNavItem.getElement());

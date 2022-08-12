@@ -1,6 +1,7 @@
 package com.example.application.views.helloworld;
 
-import com.example.application.data.entity.SamplePerson;
+import com.example.application.HasVeryDynamicTitle;
+import com.example.application.data.service.SamplePerson;
 import com.example.application.data.service.SamplePersonService;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
@@ -19,15 +20,13 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
-import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 
-@PageTitle("Hello World")
 @Route(value = "hello", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
 @Uses(Icon.class)
-public class HelloWorldView extends Div {
+public class HelloWorldView extends Div implements HasVeryDynamicTitle {
 
     /**
 	 * 
@@ -49,7 +48,7 @@ public class HelloWorldView extends Div {
     public HelloWorldView(SamplePersonService personService) {
         addClassName("hello-world-view");
 
-        add(createTitle());
+        add(createTitle()); 
         add(createFormLayout());
         add(createButtonLayout());
 

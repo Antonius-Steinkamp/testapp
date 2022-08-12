@@ -1,6 +1,5 @@
 package com.example.application.views.about;
 
-import com.example.application.HasVeryDynamicTitle;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Image;
@@ -8,15 +7,15 @@ import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 
-@Route(value = "about", layout = MainLayout.class)
-public class AboutView extends VerticalLayout implements HasVeryDynamicTitle {
+@Route(value = "about3", layout = MainLayout.class)
+public class AboutView3 extends VerticalLayout {
 
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = -7526277124907784334L;
 
-	public AboutView() {
+	public AboutView3() {
         setSpacing(false);
 
         Image img = new Image("images/empty-plant.png", "placeholder plant");

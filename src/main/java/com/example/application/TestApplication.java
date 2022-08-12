@@ -16,19 +16,23 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  *
  */
 @SpringBootApplication
-@Theme(value = "testapp")
+@Theme("testapp")
 @PWA(name = "Testapp", shortName = "Testapp", offlineResources = {})
 @NpmPackage(value = "line-awesome", version = "1.3.0")
 @NpmPackage(value = "@vaadin-component-factory/vcf-nav", version = "1.0.6")
-public class Application extends SpringBootServletInitializer implements AppShellConfigurator {
+public class TestApplication extends SpringBootServletInitializer implements AppShellConfigurator {
 
     /**
-	 * 
+	 * Wird immer gebraucht.
 	 */
 	private static final long serialVersionUID = -5170116799200123108L;
 
-	public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+	/**
+	 * Starter.
+	 * @param args String[] Cmd Argumente.
+	 */
+	public static void main(final String[] args) {
+        SpringApplication.run(TestApplication.class, args);
     }
-
+	
 }
