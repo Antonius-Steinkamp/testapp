@@ -1,12 +1,15 @@
 package com.example.application.views;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.example.application.HasVeryDynamicTitleClasses;
+import com.example.application.app.meldepunkt.MeldepunktView;
+import com.example.application.app.person.SamplePersonView;
 import com.example.application.components.appnav.AppNav;
 import com.example.application.components.appnav.AppNavItem;
-import com.example.application.data.service.SamplePersonView;
 import com.example.application.views.about.AboutView;
-import com.example.application.views.about.AboutView2;
-import com.example.application.views.about.AboutView3;
+import com.example.application.views.fismessage.FisMessageView;
 import com.example.application.views.helloworld.HelloWorldView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -19,9 +22,12 @@ import com.vaadin.flow.component.html.Header;
 import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.PageTitle;
 
+import lombok.extern.java.Log;
+
 /**
  * The main view is a top-level placeholder for other views.
  */
+@Log
 public class MainLayout extends AppLayout {
 
     /**
@@ -29,8 +35,14 @@ public class MainLayout extends AppLayout {
 	 */
 	private static final long serialVersionUID = -6154652183060289797L;
 	private H1 viewTitle;
+	
+	@Autowired
+	private final HasVeryDynamicTitleClasses classes;
 
-    public MainLayout() {
+    public MainLayout(final HasVeryDynamicTitleClasses classes) {
+    	
+    	this.classes = classes;
+    	
         setPrimarySection(Section.DRAWER);
         addToNavbar(true, createHeaderContent());
         addToDrawer(createDrawerContent());
@@ -66,10 +78,10 @@ public class MainLayout extends AppLayout {
 
         nav.addItem(new AppNavItem("Hello World", HelloWorldView.class, "la la-user"));
         nav.addItem(new AppNavItem("About", AboutView.class, "la la-file"));
-        nav.addItem(new AppNavItem("About2", AboutView2.class, "la la-file"));
-        nav.addItem(new AppNavItem("About3", AboutView3.class, "la la-file"));
         nav.addItem(new AppNavItem("Persons", SamplePersonView.class, "la la-columns"));
 
+        nav.addItem(new AppNavItem("FisMeldungen", FisMessageView.class, "la la-columns"));
+        nav.addItem(new AppNavItem("Meldepunkte", MeldepunktView.class, "la la-columns"));
         return nav;
     }
 

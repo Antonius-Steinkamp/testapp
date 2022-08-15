@@ -63,6 +63,7 @@ public class AppNavItem extends Component {
         setLabel(label);
     }
 
+    
     /**
      * Creates a new menu item using the given label and icon that links to the
      * given path.

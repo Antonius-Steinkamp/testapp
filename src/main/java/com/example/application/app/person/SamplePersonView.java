@@ -1,14 +1,14 @@
-package com.example.application.data.service;
+package com.example.application.app.person;
 
 import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Component;
 
 import com.example.application.HasVeryDynamicTitle;
 import com.example.application.views.MainLayout;
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -72,7 +72,7 @@ public class SamplePersonView extends Div implements BeforeEnterObserver,  HasVe
     private final SamplePersonService samplePersonService;
 
     @Autowired
-    public SamplePersonView(SamplePersonService samplePersonService) {
+    public SamplePersonView(final SamplePersonService samplePersonService) {
         this.samplePersonService = samplePersonService;
         addClassNames("master-detail-view");
 
@@ -204,9 +204,8 @@ public class SamplePersonView extends Div implements BeforeEnterObserver,  HasVe
         dateOfBirth = new DatePicker("Date Of Birth");
         occupation = new TextField("Occupation");
         important = new Checkbox("Important");
-        Component[] fields = new Component[]{firstName, lastName, email, phone, dateOfBirth, occupation, important};
 
-        formLayout.add(fields);
+        formLayout.add(firstName, lastName, email, phone, dateOfBirth, occupation, important);
         editorDiv.add(formLayout);
         createButtonLayout(editorLayoutDiv);
 

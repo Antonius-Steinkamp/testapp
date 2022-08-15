@@ -1,4 +1,4 @@
-package com.example.application.data.service;
+package com.example.application.app.person;
 
 import java.time.LocalDateTime;
 
@@ -13,10 +13,10 @@ import lombok.extern.java.Log;
 
 @Log
 @SpringComponent
-public class DataGenerator {
+public class PersonDataGenerator {
 
     @Bean
-    public CommandLineRunner loadData(final SamplePersonRepository samplePersonRepository) {
+    public CommandLineRunner loadPersonData(final SamplePersonRepository samplePersonRepository) {
     	final int DEMO_DATA_CNT = 100;
     	
         return args -> {

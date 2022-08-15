@@ -20,7 +20,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @PWA(name = "Testapp", shortName = "Testapp", offlineResources = {})
 @NpmPackage(value = "line-awesome", version = "1.3.0")
 @NpmPackage(value = "@vaadin-component-factory/vcf-nav", version = "1.0.6")
-public class TestApplication extends SpringBootServletInitializer implements AppShellConfigurator {
+public class BMA extends SpringBootServletInitializer implements AppShellConfigurator {
 
     /**
 	 * Wird immer gebraucht.
@@ -32,7 +32,7 @@ public class TestApplication extends SpringBootServletInitializer implements App
 	 * @param args String[] Cmd Argumente.
 	 */
 	public static void main(final String[] args) {
-        SpringApplication.run(TestApplication.class, args);
+        SpringApplication.run(BMA.class, args);
     }
 	
 }

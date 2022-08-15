@@ -20,6 +20,7 @@ import com.vaadin.flow.router.Route;
 
 @Route(value = "fismessage", layout = MainLayout.class)
 @Uses(Icon.class)
+@org.springframework.stereotype.Component
 public class FisMessageView extends Div implements HasVeryDynamicTitle {
 
     /**
