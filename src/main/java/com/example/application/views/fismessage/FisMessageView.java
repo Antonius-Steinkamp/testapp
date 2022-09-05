@@ -1,7 +1,7 @@
 package com.example.application.views.fismessage;
 
 import com.example.application.HasVeryDynamicTitle;
-import com.example.application.views.MainLayout;
+import com.example.application.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -20,7 +20,6 @@ import com.vaadin.flow.router.Route;
 
 @Route(value = "fismessage", layout = MainLayout.class)
 @Uses(Icon.class)
-@org.springframework.stereotype.Component
 public class FisMessageView extends Div implements HasVeryDynamicTitle {
 
     /**

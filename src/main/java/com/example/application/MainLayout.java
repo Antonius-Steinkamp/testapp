@@ -1,9 +1,6 @@
-package com.example.application.views;
+package com.example.application;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.example.application.HasVeryDynamicTitleClasses;
 import com.example.application.app.meldepunkt.MeldepunktView;
 import com.example.application.app.person.SamplePersonView;
 import com.example.application.components.appnav.AppNav;
@@ -36,13 +33,8 @@ public class MainLayout extends AppLayout {
 	private static final long serialVersionUID = -6154652183060289797L;
 	private H1 viewTitle;
 	
-	@Autowired
-	private final HasVeryDynamicTitleClasses classes;
 
-    public MainLayout(final HasVeryDynamicTitleClasses classes) {
-    	
-    	this.classes = classes;
-    	
+    public MainLayout() {
         setPrimarySection(Section.DRAWER);
         addToNavbar(true, createHeaderContent());
         addToDrawer(createDrawerContent());
@@ -76,6 +68,16 @@ public class MainLayout extends AppLayout {
         AppNav nav = new AppNav();
         nav.addClassNames("app-nav");
 
+        /*
+        Set<Class<?>> veryDynamicTitleClassesUsingClassLoader = findVeryDynamicTitleClassesUsingClassLoader("com.example.application");
+        for (Class<?> cls: veryDynamicTitleClassesUsingClassLoader) {
+        	if (cls.isAssignableFrom(HasVeryDynamicTitle.class)) { // Das tut alles nicht
+        	// HasVeryDynamicTitle clsVeryDynamic = (HasVeryDynamicTitle)cls;
+        	log.info("Add " + clsVeryDynamic.getPageTitle() + " class " + cls.getClass());
+        	}
+        }
+        */
+        
         nav.addItem(new AppNavItem("Hello World", HelloWorldView.class, "la la-user"));
         nav.addItem(new AppNavItem("About", AboutView.class, "la la-file"));
         nav.addItem(new AppNavItem("Persons", SamplePersonView.class, "la la-columns"));
@@ -85,6 +87,32 @@ public class MainLayout extends AppLayout {
         return nav;
     }
 
+    /*
+    private static Set<Class<? extends HasVeryDynamicTitle>> findVeryDynamicTitleClassesUsingClassLoader(final String packageName) {
+    	final Set<Class<? extends HasVeryDynamicTitle>> result = new HashSet<>();
+    	
+        InputStream stream = ClassLoader.getSystemClassLoader()
+          .getResourceAsStream(packageName.replaceAll("[.]", "/"));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+        reader.lines().forEach(line -> {
+        	if ( line.endsWith(".class") ) {
+        		  try {
+        	            final Class<?> cls = Class.forName(packageName + "." + line.substring(0, line.lastIndexOf('.')));
+        	            if (cls.isInstance(HasVeryDynamicTitle.class)) {
+        	            // if (HasVeryDynamicTitle.class.isAssignableFrom(cls)) {
+        	            	result.add(cls);
+        	            }
+        	        } catch (ClassNotFoundException e) {
+        	            // No class
+        	        }
+        	} else {
+        		result.addAll(findVeryDynamicTitleClassesUsingClassLoader(packageName + "." + line));
+        	}
+        });
+        
+        return result;
+    }
+*/
     private Footer createFooter() {
         Footer layout = new Footer();
         layout.addClassNames("app-nav-footer");

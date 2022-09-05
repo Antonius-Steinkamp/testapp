@@ -1,11 +1,9 @@
 package com.example.application.views.helloworld;
 
-import org.springframework.stereotype.Component;
-
 import com.example.application.HasVeryDynamicTitle;
+import com.example.application.MainLayout;
 import com.example.application.app.person.SamplePerson;
 import com.example.application.app.person.SamplePersonService;
-import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -31,7 +29,6 @@ import lombok.extern.java.Log;
 @Route(value = "hello", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
 @Uses(Icon.class)
-@Component // wird automatisch gefunden wenn HasVeryDynamicTitle implementiert wird
 @Log
 public class HelloWorldView extends Div implements HasVeryDynamicTitle, BeforeLeaveObserver, BeforeEnterObserver   {
 

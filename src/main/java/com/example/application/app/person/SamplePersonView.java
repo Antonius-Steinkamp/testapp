@@ -5,10 +5,9 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Component;
 
 import com.example.application.HasVeryDynamicTitle;
-import com.example.application.views.MainLayout;
+import com.example.application.MainLayout;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -32,7 +31,7 @@ import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.data.VaadinSpringDataHelpers;
 
-@Route(value = "persons/:samplePersonID?/:action?(edit)", layout = MainLayout.class)
+@Route(value = "persons/:" + SamplePersonView.SAMPLEPERSON_ID + "?/:action?(edit)", layout = MainLayout.class)
 @Uses(Icon.class)
 public class SamplePersonView extends Div implements BeforeEnterObserver,  HasVeryDynamicTitle {
 
@@ -44,7 +43,7 @@ public class SamplePersonView extends Div implements BeforeEnterObserver,  HasVe
 	/**
 	 * 
 	 */
-	private static final String SAMPLEPERSON_ID = "samplePersonID";
+	public static final String SAMPLEPERSON_ID = "samplePersonID";
 	
     /**
      * 
